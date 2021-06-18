@@ -2,15 +2,11 @@ import os
 import time
 import requests
 from datetime import datetime
-import tracemalloc
-import gc
 
 try:
     os.mkdir("CAINS")
 except OSError as error:
     True
-
-tracemalloc.start()
 
 while True:
 
@@ -41,11 +37,6 @@ while True:
             False
 
     request.close()
-    #print("===============================================")
-    current, peak = tracemalloc.get_traced_memory()
-    print(f"Current memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
+    print("===============================================")
 
-    time.sleep(1)
-    gc.collect()
-
-tracemalloc.stop()
+    time.sleep(60)
