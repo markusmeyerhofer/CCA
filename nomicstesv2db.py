@@ -1,6 +1,7 @@
 import os
 import time
 import requests
+import gc
 from datetime import datetime
 
 import mysql.connector

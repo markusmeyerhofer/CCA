@@ -1,5 +1,6 @@
 import ftplib
 import time
+import gc
 import importmodulepd as inp
 
 server = ftplib.FTP()
