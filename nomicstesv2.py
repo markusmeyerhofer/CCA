@@ -1,4 +1,3 @@
-import os
 import time
 import requests
 import gc
@@ -30,7 +29,7 @@ while True:
 
             #a = open("CAINS\\cains_" + day + ".csv", "a+")
             #a.write(buildstream)
-            #print(buildstream)
+            print(buildstream)
             del buildstream
             del day
             del hours

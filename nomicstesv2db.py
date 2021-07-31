@@ -1,16 +1,13 @@
-import os
 import time
 import requests
-import gc
 from datetime import datetime
-
 import mysql.connector
 
 mydb = mysql.connector.connect(
     host="localhost",
-    username="root",
-    password="",
-    database="krypto"
+    username="phpmyadmin",
+    password="F1xKCrC7ydVr",
+    database="CCA"
 )
 
 curs = mydb.cursor()

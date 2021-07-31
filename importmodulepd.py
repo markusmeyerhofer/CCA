@@ -1,6 +1,5 @@
 import pandas as pd
 import os
-import gc
 
 def getlist():
     path = "D:\\PythonLibary\\pythonProject\\getter\\CAINS"
