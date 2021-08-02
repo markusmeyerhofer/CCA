@@ -49,12 +49,8 @@ cur.execute("INSERT INTO CRYPTO_DATA(id,name,price,circulating_supply,market_cap
             circulating_supply_change_rel + "," + market_cap_change_rel + "," + num_exchanges_change_rel +
             "," + volume_change_rel + ",CURRENT_TIMESTAMP)")
 
-# cur.execute("SELECT * FROM CRYPTO_DATA")
 conn.commit()
-
 cur.close()
-
-# price_change_rel = price - price 3min before
 
 
 
