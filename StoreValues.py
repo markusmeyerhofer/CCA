@@ -5,6 +5,9 @@ from datetime import datetime
 
 # ssh -L 3306:localhost:3306 pi@cca1.hopto.org
 
+#Note
+#Nach min. 15 Minuten Pause "WHERE"-Klausel aus select-Statement entfernen, starten, wieder einsetzen
+
 day = datetime.now().strftime("%Y-%m-%d")
 hours = datetime.now().strftime("%H:%M:%S")
 
@@ -12,6 +15,13 @@ url = "https://api.nomics.com/v1/currencies/ticker?key=7447a1d2a3e1e93b18d9bbf00
 request = requests.get(url)
 data = request.json()
 request.close()
+
+url2 = "https://api.lunarcrush.com/v2?data=assets&key=bpt6yli7l2vr2ez7ymafo&symbol=BTC"
+request2 = requests.get(url2)
+data2 = request2.json()
+request2.close()
+
+print(data2)
 
 # Connect to MariaDB Platform
 try:
