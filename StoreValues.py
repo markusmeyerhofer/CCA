@@ -16,13 +16,6 @@ request = requests.get(url)
 data = request.json()
 request.close()
 
-url2 = "https://api.lunarcrush.com/v2?data=assets&key=bpt6yli7l2vr2ez7ymafo&symbol=BTC"
-request2 = requests.get(url2)
-data2 = request2.json()
-request2.close()
-
-print(data2)
-
 # Connect to MariaDB Platform
 try:
     conn = mariadb.connect(
@@ -53,14 +46,30 @@ volume_change_rel = str(volume_past/float(data[0]["1d"]["volume"])*100)
 
 cur.execute("INSERT INTO CRYPTO_DATA(id,name,price,circulating_supply,market_cap,num_exchanges,num_pairs,volume,"
             "price_change_rel,circulating_supply_change_rel,market_cap_change_rel,num_exchanges_change_rel,"
-            "volume_change_rel,timestamp) values('" + data[0]["id"] + "','" + data[0]["name"] + "'," + data[0]["price"]
+            "volume_change_rel,timestamp) VALUES('" + data[0]["id"] + "','" + data[0]["name"] + "'," + data[0]["price"]
             + "," + data[0]["circulating_supply"] + "," + data[0]["market_cap"] + "," + data[0]["num_exchanges"]
             + "," + data[0]["num_pairs"] + "," + data[0]["1d"]["volume"] + "," + price_change_rel + "," +
             circulating_supply_change_rel + "," + market_cap_change_rel + "," + num_exchanges_change_rel +
             "," + volume_change_rel + ",CURRENT_TIMESTAMP)")
 
+
+
+
+
+
+url2 = "https://api.lunarcrush.com/v2?data=assets&key=bpt6yli7l2vr2ez7ymafo&symbol=BTC"
+request2 = requests.get(url2)
+data2 = request2.json()["data"][0]
+request2.close()
+
+cur.execute("INSERT INTO SOCIALMEDIA_24H(id, rank_calc_24h, contributors_calc_24h, url_shares_calc_24h,"
+            "tweet_spam_calc_24h, news_calc_24h, social_score_calc_24h, social_volume_calc_24h,"
+            "average_sentiment_calc_24h, timestamp) VALUES('" + data2["symbol"] + "'," +
+            str(data2["alt_rank_calc_24h_previous"]) + "," + str(data2["social_contributors_calc_24h"]) + "," +
+            str(data2["url_shares_calc_24h"]) + "," + str(data2["tweet_spam_calc_24h"]) + "," +
+            str(data2["news_calc_24h"]) + "," + str(data2["social_score_calc_24h"]) + "," +
+            str(data2["social_volume_calc_24h"]) + "," + str(data2["average_sentiment"]) + ",CURRENT_TIMESTAMP)")
+
 conn.commit()
 cur.close()
-
-
 
