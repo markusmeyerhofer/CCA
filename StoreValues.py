@@ -34,8 +34,8 @@ cur = conn.cursor()
 # Get last CRYPTO_DATA-tuple
 cur.execute("SELECT price, circulating_supply, market_cap, num_exchanges, volume FROM CRYPTO_DATA WHERE timestamp > "
             "now() - interval 15 minute ORDER BY timestamp ASC LIMIT 1;")
-rows = cur.fetchone()
-price_past, circulating_supply_past, market_cap_past, num_exchanges, volume_past = rows
+row = cur.fetchone()
+price_past, circulating_supply_past, market_cap_past, num_exchanges, volume_past = row
 
 # Calculating changes
 price_change_rel = str(price_past/float(data[0]["price"])*100)
@@ -80,6 +80,42 @@ cur.execute("INSERT INTO SOCIALMEDIA_DATA(id, url_shares, unique_url_shares, red
             "," + str(data2["tweet_favorites"]) + "," + str(data2["correlation_rank"]) + "," +
             str(data2["galaxy_score"]) + "," + str(data2["social_contributors"]) + "," + str(data2["social_volume"]) +
             "," + str(data2["social_volume_global"]) + "," + str(data2["social_dominance"]) + ",'" + timestamp + "')")
+
+# Get last SOCIALMEDIA_DATA-tuple
+cur.execute("SELECT url_shares, unique_url_shares, reddit_posts, reddit_posts_score, reddit_comments,"
+            " reddit_comments_score, tweets, tweet_spam, tweet_retweets, galaxy_score, social_volume_global,"
+            " social_contributors FROM SOCIALMEDIA_DATA WHERE timestamp > now() - interval 15 minute ORDER BY timestamp"
+            " ASC LIMIT 1;")
+
+row = cur.fetchone()
+url_shares_past, unique_url_shares_past, reddit_posts_past, reddit_posts_score_past, reddit_comments_past,\
+reddit_comments_score_past, tweets_past, tweet_spam_past, tweet_retweets_past, galaxy_score_past,\
+social_volume_global_past, social_contributors_past = row
+
+# Calculating changes
+url_shares_change_rel = str(url_shares_past/data2["url_shares"]*100)
+unique_url_shares_change_rel = str(unique_url_shares_past/data2["unique_url_shares"]*100)
+reddit_posts_change_rel = str(reddit_posts_past/data2["reddit_posts"]*100)
+reddit_posts_score_change_rel = str(reddit_posts_score_past/data2["reddit_posts_score"]*100)
+reddit_comments_change_rel = str(reddit_comments_past/data2["reddit_comments"]*100)
+reddit_comments_score_change_rel = str(reddit_comments_score_past/data2["reddit_comments_score"]*100)
+tweets_change_rel = str(tweets_past/data2["tweets"]*100)
+tweet_spam_change_rel = str(tweet_spam_past/data2["tweet_spam"]*100)
+tweet_retweets_change_rel = str(tweet_retweets_past/data2["tweet_retweets"]*100)
+galaxy_score_change_rel = str(galaxy_score_past/data2["galaxy_score"]*100)
+social_volume_global_change_rel = str(social_volume_global_past/data2["social_volume"]*100)
+social_contributors_change_rel = str(social_contributors_past/data2["social_volume_global"]*100)
+
+# Insert into SOCIALMEDIA_DATA_RELATIVE
+cur.execute("INSERT INTO SOCIALMEDIA_DATA_RELATIV(id, url_shares_change_rel, unique_url_shares_change_rel,"
+            " reddit_posts_change_rel, reddit_posts_score_change_rel, reddit_comments_change_rel,"
+            " reddit_comments_score_change_rel, tweets_change_rel, tweet_spam_change_rel, tweet_retweets_change_rel,"
+            " galaxy_score_change_rel, social_volume_global_change_rel, social_contributors_change_rel, timestamp)"
+            " VALUES('" + data2["symbol"] + "'," + url_shares_change_rel + "," + unique_url_shares_change_rel + "," +
+            reddit_posts_change_rel + "," + reddit_posts_score_change_rel + "," + reddit_comments_change_rel + "," +
+            reddit_comments_score_change_rel + "," + tweets_change_rel + "," + tweet_spam_change_rel + "," +
+            tweet_retweets_change_rel + "," + galaxy_score_change_rel + "," + social_volume_global_change_rel + "," +
+            social_contributors_change_rel + ",'" + timestamp + "')")
 
 conn.commit()
 cur.close()
