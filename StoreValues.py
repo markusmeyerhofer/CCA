@@ -93,29 +93,45 @@ reddit_comments_score_past, tweets_past, tweet_spam_past, tweet_retweets_past, g
 social_volume_global_past, social_contributors_past = row
 
 # Calculating changes
-url_shares_change_rel = str(url_shares_past/data2["url_shares"]*100)
-unique_url_shares_change_rel = str(unique_url_shares_past/data2["unique_url_shares"]*100)
-reddit_posts_change_rel = str(reddit_posts_past/data2["reddit_posts"]*100)
-reddit_posts_score_change_rel = str(reddit_posts_score_past/data2["reddit_posts_score"]*100)
-reddit_comments_change_rel = str(reddit_comments_past/data2["reddit_comments"]*100)
-reddit_comments_score_change_rel = str(reddit_comments_score_past/data2["reddit_comments_score"]*100)
-tweets_change_rel = str(tweets_past/data2["tweets"]*100)
-tweet_spam_change_rel = str(tweet_spam_past/data2["tweet_spam"]*100)
-tweet_retweets_change_rel = str(tweet_retweets_past/data2["tweet_retweets"]*100)
-galaxy_score_change_rel = str(galaxy_score_past/data2["galaxy_score"]*100)
-social_volume_global_change_rel = str(social_volume_global_past/data2["social_volume"]*100)
-social_contributors_change_rel = str(social_contributors_past/data2["social_volume_global"]*100)
+url_shares_change_rel = url_shares_past/data2["url_shares"]*100
+unique_url_shares_change_rel = unique_url_shares_past/data2["unique_url_shares"]*100
+reddit_posts_change_rel = reddit_posts_past/data2["reddit_posts"]*100
+reddit_posts_score_change_rel = reddit_posts_score_past/data2["reddit_posts_score"]*100
+reddit_comments_change_rel = reddit_comments_past/data2["reddit_comments"]*100
+reddit_comments_score_change_rel = reddit_comments_score_past/data2["reddit_comments_score"]*100
+tweets_change_rel = tweets_past/data2["tweets"]*100
+tweet_spam_change_rel = tweet_spam_past/data2["tweet_spam"]*100
+tweet_retweets_change_rel = tweet_retweets_past/data2["tweet_retweets"]*100
+galaxy_score_change_rel = galaxy_score_past/data2["galaxy_score"]*100
+social_volume_global_change_rel = social_volume_global_past/data2["social_volume"]*100
+social_contributors_change_rel = social_contributors_past/data2["social_volume_global"]*100
 
 # Insert into SOCIALMEDIA_DATA_RELATIVE
 cur.execute("INSERT INTO SOCIALMEDIA_DATA_RELATIV(id, url_shares_change_rel, unique_url_shares_change_rel,"
             " reddit_posts_change_rel, reddit_posts_score_change_rel, reddit_comments_change_rel,"
             " reddit_comments_score_change_rel, tweets_change_rel, tweet_spam_change_rel, tweet_retweets_change_rel,"
             " galaxy_score_change_rel, social_volume_global_change_rel, social_contributors_change_rel, timestamp)"
-            " VALUES('" + data2["symbol"] + "'," + url_shares_change_rel + "," + unique_url_shares_change_rel + "," +
-            reddit_posts_change_rel + "," + reddit_posts_score_change_rel + "," + reddit_comments_change_rel + "," +
-            reddit_comments_score_change_rel + "," + tweets_change_rel + "," + tweet_spam_change_rel + "," +
-            tweet_retweets_change_rel + "," + galaxy_score_change_rel + "," + social_volume_global_change_rel + "," +
-            social_contributors_change_rel + ",'" + timestamp + "')")
+            " VALUES('" + data2["symbol"] + "'," + str(url_shares_change_rel) + "," +
+            str(unique_url_shares_change_rel) + "," + str(reddit_posts_change_rel) + "," +
+            str(reddit_posts_score_change_rel) + "," + str(reddit_comments_change_rel) + "," +
+            str(reddit_comments_score_change_rel) + "," + str(tweets_change_rel) + "," +
+            str(tweet_spam_change_rel) + "," + str(tweet_retweets_change_rel) + "," +
+            str(galaxy_score_change_rel) + "," + str(social_volume_global_change_rel) + "," +
+            str(social_contributors_change_rel) + ",'" + str(timestamp) + "')")
+
+# Insert into SOCIALMEDIA_SENTIMENTS
+
+cur.execute("INSERT INTO SOCIALMEDIA_SENTIMENTS(id, tweet_sentiment1, tweet_sentiment2, tweet_sentiment3,"
+            " tweet_sentiment4, tweet_sentiment5, tweet_sentiment_impact1, tweet_sentiment_impact2,"
+            " tweet_sentiment_impact3, tweet_sentiment_impact4, tweet_sentiment_impact5, average_sentiment,"
+            " sentiment_relativ, social_impact_score, timestamp) VALUES('" + data2["symbol"] + "'," +
+            str(data2["tweet_sentiment1"]) + "," + str(data2["tweet_sentiment2"]) + "," +
+            str(data2["tweet_sentiment3"]) + "," + str(data2["tweet_sentiment4"]) + "," +
+            str(data2["tweet_sentiment5"]) + "," + str(data2["tweet_sentiment_impact1"]) + "," +
+            str(data2["tweet_sentiment_impact2"]) + "," + str(data2["tweet_sentiment_impact3"]) + "," +
+            str(data2["tweet_sentiment_impact4"]) + "," + str(data2["tweet_sentiment_impact5"]) + "," +
+            str(data2["average_sentiment"]) + "," + str(data2["sentiment_relative"]) + "," +
+            str(data2["social_impact_score"]) + ",'" + timestamp + "')")
 
 conn.commit()
 cur.close()
